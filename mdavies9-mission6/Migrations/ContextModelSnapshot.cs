@@ -21,9 +21,8 @@ namespace mdavies9_mission6.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -51,13 +50,15 @@ namespace mdavies9_mission6.Migrations
 
                     b.HasKey("movieId");
 
-                    b.ToTable("responses");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Responses");
 
                     b.HasData(
                         new
                         {
                             movieId = 1,
-                            Category = "Action",
+                            CategoryId = 1,
                             Director = "Steven Spielburg",
                             Edited = false,
                             Lent = "",
@@ -69,7 +70,7 @@ namespace mdavies9_mission6.Migrations
                         new
                         {
                             movieId = 2,
-                            Category = "Comedy",
+                            CategoryId = 2,
                             Director = "Michael Bay",
                             Edited = true,
                             Lent = "Bob",
@@ -81,7 +82,7 @@ namespace mdavies9_mission6.Migrations
                         new
                         {
                             movieId = 3,
-                            Category = "Adventure",
+                            CategoryId = 3,
                             Director = "Jessie Pinkman",
                             Edited = false,
                             Lent = "",
@@ -90,6 +91,46 @@ namespace mdavies9_mission6.Migrations
                             Title = "Jumanji",
                             Year = 2015
                         });
+                });
+
+            modelBuilder.Entity("mdavies9_mission6.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categorys");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Action"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Drama"
+                        });
+                });
+
+            modelBuilder.Entity("mdavies9_mission6.Models.ApplicationResponse", b =>
+                {
+                    b.HasOne("mdavies9_mission6.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

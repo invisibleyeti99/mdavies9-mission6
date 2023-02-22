@@ -15,13 +15,15 @@ namespace mdavies9_mission6.Models
         public int movieId { get; set; }
         [Required]
 
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
         public int Year { get; set; }
         [Required]
         public string Director { get; set; }
+   
 
         [Required]
 
@@ -30,7 +32,7 @@ namespace mdavies9_mission6.Models
         public bool Edited { get; set; }
         
         public string Lent { get; set; }
-        
+        [StringLength(25, ErrorMessage = "Notes cannot exceed 25 characters.")]
         public string Notes { get; set; }
   
 
